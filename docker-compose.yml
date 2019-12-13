@@ -4,12 +4,13 @@ services:
     restart: always
     build: .
     command: gunicorn --timeout=30 --workers=4 --bind :3030 wsgi:application
-    ports:
-      - "3030:3030"
+    expose:
+      - "3030"
     depends_on:
       - db
     networks:
       - db_network
+      - web_network
 
   db:
     restart: always
@@ -18,6 +19,19 @@ services:
       - "27017:27017"
     networks:
       - db_network
+
+  nginx:
+    restart: always
+    image: nginx
+    ports:
+      - "3030:3030"
+    volumes:
+      - "./config/nginx:/etc/nginx/conf.d"
+    depends_on:
+      - app
+    networks:
+      - web_network
+
 
   elastic_search:
     restart: always
@@ -28,4 +42,6 @@ services:
 
 networks:
   db_network:
+    driver: bridge
+  web_network:
     driver: bridge
