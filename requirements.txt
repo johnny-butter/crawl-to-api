@@ -11,3 +11,5 @@ elasticsearch == 7.1.0
 pymongo == 3.9.0
 
 gunicorn == 19.9.0
+
+requests == 2.23.0
