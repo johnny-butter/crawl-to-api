@@ -4,8 +4,9 @@ from bs4 import BeautifulSoup
 
 class HouseParser:
 
-    def __init__(self, html):
+    def __init__(self, html, region_id):
         self.soup = BeautifulSoup(html, 'html.parser')
+        self.region_id = region_id
 
     def get_landlord(self):
         return self.soup.find('div', attrs={"class": "avatarRight"}).find('i').text
@@ -70,4 +71,5 @@ class HouseParser:
             'house_status': self.get_house_status(),
             'gender_limit': self.get_gender_limit(),
             'house_description': self.get_house_description(),
+            'region': self.region_id,
         }
